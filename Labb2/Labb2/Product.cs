@@ -7,15 +7,11 @@ namespace Labb2
         public double Price { get; set; }
         public string Name { get; set; } = null!;
 
-        public Product(string name, double price, bool shouldSave)
+        public Product(string name, double price)
         {
             Name = name;
             Price = price;
             Currency = Currencies.SEK;
-            if (shouldSave)
-            {
-                SaveProduct(this);
-            }
         }
 
         public Product()
@@ -27,20 +23,24 @@ namespace Labb2
         {
             return $"{Name} för {Math.Round(Price, 2)} {Currency}";
         }
-        public void SaveProduct(Product product)
+        public static void SaveProduct(List<Product> list)
         {
+            File.Delete($"{Directory.GetCurrentDirectory()}\\product.txt");
             var sw = new StreamWriter(path: $"{Directory.GetCurrentDirectory()}\\product.txt", append: true, Encoding.Default);
-            sw.Write($"Name:{product.Name},Price:{product.Price}\n");
+            foreach (var product in list)
+            {
+                sw.Write($"Name:{product.Name},Price:{product.Price}\n");
+            }
             sw.Close();
         }
-        public List<Product> ReadProducts()
+        public static List<Product> ReadProducts()
         {
             var tempList = new List<Product>();
             if (!File.Exists($"{Directory.GetCurrentDirectory()}\\product.txt"))
             {
-                tempList.Add(new Product(name: "Kaffe", price: 50, shouldSave: true));
-                tempList.Add(new Product(name: "Dricka", price: 23, shouldSave: true));
-                tempList.Add(new Product(name: "Äpple", price: 5, shouldSave: true));
+                tempList.Add(new Product(name: "Kaffe", price: 50));
+                tempList.Add(new Product(name: "Dricka", price: 23));
+                tempList.Add(new Product(name: "Äpple", price: 5));
             }
             else
             {
@@ -49,29 +49,31 @@ namespace Labb2
                 while (line != null)
                 {
                     var tempSplit = line.Split(separator: ",");
-                    var tempProduct = new Product();
+                    var tempName = string.Empty;
+                    double tempPrice = 0;
                     foreach (var x in tempSplit)
                     {
                         if (x.Contains("Name"))
                         {
-                            tempProduct.Name = x.Replace("Name:", string.Empty);
+                            tempName = x.Replace("Name:", string.Empty);
                         }
                         else if (x.Contains("Price"))
                         {
-                            tempProduct.Price = int.Parse(x.Replace("Price:", string.Empty));
+                            tempPrice = double.Parse(x.Replace("Price:", string.Empty));
                         }
                     }
+                    var tempProduct = new Product(tempName, tempPrice);
                     tempList.Add(tempProduct);
                     line = sr.ReadLine();
                 }
                 sr.Close();
             }
-
+            SaveProduct(tempList);
             return tempList;
         }
 
 
-        public List<Product> PriceCurrency(List<Product> list, Currencies currency)
+        public static List<Product> PriceCurrency(List<Product> list, Currencies currency)
         {
             foreach (var x in list)
             {

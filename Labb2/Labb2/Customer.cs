@@ -24,10 +24,6 @@ namespace Labb2
             Currency = Currencies.SEK;
         }
 
-        public Customer()
-        {
-        }
-
         public override string ToString()
         {
             var temp = string.Empty;
@@ -71,7 +67,7 @@ namespace Labb2
             Console.WriteLine("Tryck enter för att fortsätta...");
             Console.ReadKey();
         }
-        public List<Customer> ReadCustomers()
+        public static List<Customer> ReadCustomers()
         {
             var tempList = new List<Customer>();
             if (!File.Exists($"{Directory.GetCurrentDirectory()}\\customer.txt"))
@@ -87,32 +83,41 @@ namespace Labb2
                 while (line != null)
                 {
                     var tempSplit = line.Split(separator: ",");
-                    var tempCustomer = new Customer();
+                    var tempName = string.Empty;
+                    var tempPassword = string.Empty;
+                    var tempLevel = CustomerLevel.Bronze;
+                    var tempCurrency = Currencies.SEK;
                     foreach (var x in tempSplit)
                     {
                         if (x.Contains("Name"))
                         {
-                            tempCustomer.Name = x.Replace("Name:", string.Empty);
+                            tempName = x.Replace("Name:", string.Empty);
                         }
                         else if (x.Contains("Password"))
                         {
-                            tempCustomer.Password = x.Replace("Password:", string.Empty);
+                            tempPassword = x.Replace("Password:", string.Empty);
                         }
                         else if (x.Contains("Level"))
                         {
-                            tempCustomer.Level = (CustomerLevel)int.Parse(x.Replace("Level:", string.Empty));
+                            tempLevel = (CustomerLevel)int.Parse(x.Replace("Level:", string.Empty));
                         }
                         else if (x.Contains("Currency"))
                         {
-                            tempCustomer.Currency = (Currencies)int.Parse(x.Replace("Currency:", string.Empty));
+                            tempCurrency = (Currencies)int.Parse(x.Replace("Currency:", string.Empty));
                         }
                     }
+
+                    var tempCustomer = new Customer(tempName, tempPassword)
+                    {
+                        Level = tempLevel,
+                        Currency = tempCurrency
+                    };
                     tempList.Add(tempCustomer);
                     line = sr.ReadLine();
                 }
                 sr.Close();
-                SaveCustomer(tempList);
             }
+            SaveCustomer(tempList);
             return tempList;
         }
         public static void SaveCustomer(List<Customer> list)

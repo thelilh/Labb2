@@ -1,8 +1,8 @@
 ﻿
 using Labb2;
 
-var customers = new Customer().ReadCustomers();
-var products = new Product().ReadProducts();
+var customers = Customer.ReadCustomers();
+var products = Product.ReadProducts();
 bool shouldLogIn;
 Customer loggedCustomer = null!;
 while (true)
@@ -65,7 +65,7 @@ if (!shouldLogIn)
         Console.Clear();
         Console.WriteLine($"VÄLKOMMEN TILL C#-KÖP!\n{loggedCustomer}");
         Console.WriteLine("Vad vill du göra?");
-        products = new Product().PriceCurrency(products, loggedCustomer.Currency);
+        products = Product.PriceCurrency(products, loggedCustomer.Currency);
         switch (menu)
         {
             case 0:
