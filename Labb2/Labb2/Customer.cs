@@ -13,20 +13,15 @@ namespace Labb2
         }
         public string Name { get; internal set; } = null!;
         public string Password { get; set; } = null!;
-        public List<Product> Cart { get; } = null!;
+        public Dictionary<Product, int> Cart { get; set; } = new Dictionary<Product, int>();
         public CustomerLevel Level { get; internal set; }
 
-        public Customer(string name, string password, bool shouldSave)
+        public Customer(string name, string password)
         {
             Name = name;
             Password = password;
             Level = CustomerLevel.Bronze;
-            Cart = new List<Product>();
             Currency = Currencies.SEK;
-            if (shouldSave)
-            {
-                SaveCutomer(this);
-            }
         }
 
         public Customer()
@@ -35,7 +30,13 @@ namespace Labb2
 
         public override string ToString()
         {
-            return $"Du är inloggad som {Name}\nMedlemsnivå: {Level} Medlem\nValuta: {Currency}";
+            var temp = string.Empty;
+            foreach (var x in Cart)
+            {
+                var tempTotal = $"{Math.Round(x.Key.Price * x.Value, 2)} {x.Key.Currency}";
+                temp += $"{x.Key} x {x.Value} = {tempTotal}\n";
+            }
+            return $"Du är inloggad som {Name}\nLösenord: {Password}\nMedlemsnivå: {Level} Medlem\nValuta: {Currency}\nFöljande finns i din varukorg:\n{temp}";
         }
 
         public void BuyProducts()
@@ -57,20 +58,27 @@ namespace Labb2
             Console.WriteLine($"Kvitto för {Name}");
             foreach (var x in Cart)
             {
-                Console.WriteLine($"{x.Name} = {x.Price} {Currency}");
-                total += x.Price;
+                Console.WriteLine($"{x.Key} x {x.Value}");
+                total += x.Key.Price;
             }
             total *= rabatt;
-            Console.WriteLine($"Totalt = {total} {Currency} med {(1.0 - rabatt) * 100}% rabatt");
+            Console.WriteLine($"Totalt = {Math.Round(total, 2)} {Currency} med {Math.Round((1.0 - rabatt) * 100, 2)}% rabatt");
+            Cart.Clear();
+            if ((int)Level < (int)CustomerLevel.Gold)
+            {
+                Level = (CustomerLevel)((int)Level + 1);
+            }
+            Console.WriteLine("Tryck enter för att fortsätta...");
+            Console.ReadKey();
         }
         public List<Customer> ReadCustomers()
         {
             var tempList = new List<Customer>();
             if (!File.Exists($"{Directory.GetCurrentDirectory()}\\customer.txt"))
             {
-                tempList.Add(new Customer(name: "Knatte", password: "123", shouldSave: true));
-                tempList.Add(new Customer(name: "Fnatte", password: "321", shouldSave: true));
-                tempList.Add(new Customer(name: "Tjatte", password: "213", shouldSave: true));
+                tempList.Add(new Customer(name: "Knatte", password: "123"));
+                tempList.Add(new Customer(name: "Fnatte", password: "321"));
+                tempList.Add(new Customer(name: "Tjatte", password: "213"));
             }
             else
             {
@@ -103,13 +111,18 @@ namespace Labb2
                     line = sr.ReadLine();
                 }
                 sr.Close();
+                SaveCustomer(tempList);
             }
             return tempList;
         }
-        public void SaveCutomer(Customer customer)
+        public static void SaveCustomer(List<Customer> list)
         {
+            File.Delete($"{Directory.GetCurrentDirectory()}\\customer.txt");
             var sw = new StreamWriter(path: $"{Directory.GetCurrentDirectory()}\\customer.txt", append: true, Encoding.Default);
-            sw.Write($"\nName:{customer.Name},Password:{customer.Password},Level:{(int)customer.Level},Currency:{(int)Currency}");
+            foreach (var customer in list)
+            {
+                sw.Write($"Name:{customer.Name},Password:{customer.Password},Level:{(int)customer.Level},Currency:{(int)customer.Currency}\n");
+            }
             sw.Close();
         }
 
@@ -133,6 +146,18 @@ namespace Labb2
                 Console.WriteLine("Fel lösenord.");
             }
             return false;
+        }
+
+        public void AddToCart(Product product)
+        {
+            if (!Cart.ContainsKey(product))
+            {
+                Cart.Add(product, 1);
+            }
+            else
+            {
+                Cart[product]++;
+            }
         }
     }
 }

@@ -25,12 +25,12 @@ namespace Labb2
 
         public override string ToString()
         {
-            return $"{Name} kostar {Price} {Currency}";
+            return $"{Name} för {Math.Round(Price, 2)} {Currency}";
         }
         public void SaveProduct(Product product)
         {
             var sw = new StreamWriter(path: $"{Directory.GetCurrentDirectory()}\\product.txt", append: true, Encoding.Default);
-            sw.Write($"\nName:{product.Name},Price:{product.Price}");
+            sw.Write($"Name:{product.Name},Price:{product.Price}\n");
             sw.Close();
         }
         public List<Product> ReadProducts()
@@ -75,62 +75,42 @@ namespace Labb2
         {
             foreach (var x in list)
             {
-                //Priser är rätt den 22 september 2022 10:00 UTC
-                if (x.Currency == Currencies.SEK)
+                switch (x.Currency)
                 {
-                    if (currency is Currencies.DKK)
-                    {
+                    //Priser är rätt för den 22 september 2022 10:00 UTC
+                    case Currencies.SEK when currency is Currencies.DKK:
                         x.Price *= 0.68;
-                    }
-                    else if (currency is Currencies.EUR)
-                    {
+                        break;
+                    case Currencies.SEK when currency is Currencies.EUR:
                         x.Price *= 0.092;
-                    }
-                    else if (currency is Currencies.USD)
-                    {
+                        break;
+                    case Currencies.SEK when currency is Currencies.USD:
                         x.Price *= 0.091;
-                    }
-                }
-                else if (x.Currency == Currencies.DKK)
-                {
-                    if (currency is Currencies.SEK)
-                    {
+                        break;
+                    case Currencies.DKK when currency is Currencies.SEK:
                         x.Price *= 1.46;
-                    }
-                    else if (currency is Currencies.EUR or Currencies.USD)
-                    {
+                        break;
+                    case Currencies.DKK when currency is Currencies.EUR or Currencies.USD:
                         x.Price *= 0.13;
-                    }
-                }
-                else if (x.Currency == Currencies.EUR)
-                {
-                    if (currency is Currencies.SEK)
-                    {
+                        break;
+                    case Currencies.EUR when currency is Currencies.SEK:
                         x.Price *= 10.86;
-                    }
-                    else if (currency is Currencies.DKK)
-                    {
+                        break;
+                    case Currencies.EUR when currency is Currencies.DKK:
                         x.Price *= 7.44;
-                    }
-                    else if (currency is Currencies.USD)
-                    {
+                        break;
+                    case Currencies.EUR when currency is Currencies.USD:
                         x.Price *= 0.99;
-                    }
-                }
-                else if (x.Currency == Currencies.USD)
-                {
-                    if (currency is Currencies.SEK)
-                    {
+                        break;
+                    case Currencies.USD when currency is Currencies.SEK:
                         x.Price *= 11.02;
-                    }
-                    else if (currency is Currencies.DKK)
-                    {
+                        break;
+                    case Currencies.USD when currency is Currencies.DKK:
                         x.Price *= 7.54;
-                    }
-                    else if (currency is Currencies.EUR)
-                    {
+                        break;
+                    case Currencies.USD when currency is Currencies.EUR:
                         x.Price *= 1.01;
-                    }
+                        break;
                 }
                 x.Currency = currency;
             }

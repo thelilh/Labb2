@@ -3,7 +3,7 @@ using Labb2;
 
 var customers = new Customer().ReadCustomers();
 var products = new Product().ReadProducts();
-var loggedIn = false;
+bool shouldLogIn;
 Customer loggedCustomer = null!;
 while (true)
 {
@@ -22,8 +22,8 @@ while (true)
     {
         //Logga in användaren.
         Console.WriteLine($"Hej {userName}!");
-        loggedIn = loggedCustomer.CheckPassword();
-        if (loggedIn)
+        shouldLogIn = !loggedCustomer.CheckPassword();
+        if (!shouldLogIn)
         {
             break;
         }
@@ -39,22 +39,23 @@ while (true)
             var userPass = Console.ReadLine();
             if (userName != null && userPass != null)
             {
-                var tempCustomer = new Customer(userName, userPass, true);
+                var tempCustomer = new Customer(userName, userPass);
                 customers.Add(tempCustomer);
                 loggedCustomer = tempCustomer;
-                loggedIn = true;
+                Customer.SaveCustomer(customers);
+                shouldLogIn = false;
                 break;
             }
         }
     }
 }
-if (loggedIn)
+if (!shouldLogIn)
 {
     //Meny system där vi visar följande
     //0. Huvudmeny
     //1. Handla något => visa menyn och lägga till i korgen
     //2. Ändra inställningar => Ändra lösenord och valuta
-    //3. Avsluta => loggedIn = false
+    //3. Avsluta => shouldLogIn = false
     var showMenu = true;
     var menu = 0;
     var selection = 0;
@@ -77,10 +78,11 @@ if (loggedIn)
                 list.Clear();
                 for (var i = 0; i < products.Count; i++)
                 {
-                    list.Add($"{i + 1}. Köp {products[i].Name} ({products[i].Price} {loggedCustomer.Currency})");
+                    list.Add($"{i + 1}. Köp {products[i]}");
                 }
                 list.Add($"{products.Count + 1}. Kolla Varukorgen");
-                list.Add($"{products.Count + 2}. Gå tillbaka");
+                list.Add($"{products.Count + 2}. Betala");
+                list.Add($"{products.Count + 3}. Gå tillbaka");
                 break;
             case 2:
                 list.Clear();
@@ -90,16 +92,110 @@ if (loggedIn)
                 list.Add("4. Ändra valuta till DKK");
                 list.Add("5. Gå tillbaka");
                 break;
-            case 3:
-                list.Clear();
-                showMenu = false;
-                break;
         }
 
-        foreach (var x in list)
+        var trueListLength = list.Count - 1;
+
+        for (var i = 0; i < list.Count; i++)
         {
-            Console.WriteLine(x);
+            if (selection == i)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+            }
+            Console.WriteLine(list[i]);
+            Console.ResetColor();
         }
-        showMenu = false;
+
+        var curKey = Console.ReadKey();
+        switch (curKey.Key)
+        {
+            case ConsoleKey.UpArrow:
+                if (selection <= 0)
+                {
+                    selection = trueListLength;
+                }
+                else
+                {
+                    selection--;
+                }
+                break;
+            case ConsoleKey.DownArrow:
+                if (selection == trueListLength)
+                {
+                    selection = 0;
+                }
+                else
+                {
+                    selection++;
+                }
+                break;
+            case ConsoleKey.Enter:
+                if (menu == 0)
+                {
+                    if (selection == 0)
+                    {
+                        menu = 1;
+                        selection = 0;
+                    }
+                    else if (selection == 1)
+                    {
+                        menu = 2;
+                        selection = 0;
+                    }
+                    else if (selection == trueListLength)
+                    {
+                        showMenu = false;
+                    }
+                }
+                else if (menu == 1)
+                {
+                    if (selection < trueListLength - 2)
+                    {
+                        loggedCustomer.AddToCart(products[selection]);
+                    }
+                    if (selection == trueListLength - 2)
+                    {
+                        if (loggedCustomer.Cart != null)
+                        {
+                            Console.WriteLine("Detta finns i din varukorg:");
+                            foreach (var x in loggedCustomer.Cart)
+                            {
+                                Console.WriteLine($"{x.Key} x {x.Value}");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Din varukorg är tom!");
+                        }
+
+                        Console.WriteLine("Tryck enter för att fortsätta...");
+                        Console.ReadKey();
+                    }
+                    if (selection == trueListLength - 1)
+                    {
+                        loggedCustomer.BuyProducts();
+                        Customer.SaveCustomer(customers);
+                    }
+                    if (selection == trueListLength)
+                    {
+                        menu = 0;
+                        selection = 0;
+                    }
+                }
+                else if (menu == 2)
+                {
+                    if (selection < trueListLength)
+                    {
+                        loggedCustomer.Currency = (Shop.Currencies)selection;
+                        Customer.SaveCustomer(customers);
+                    }
+                    else
+                    {
+                        menu = 0;
+                        selection = 0;
+                    }
+                }
+                break;
+        }
     }
 }
