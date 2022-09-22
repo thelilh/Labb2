@@ -6,21 +6,32 @@ namespace Labb2
     {
         public double Price { get; set; }
         public string Name { get; set; } = null!;
-        private Currencies _productCurrencies = Currencies.SEK;
 
         public Product(string name, double price, bool shouldSave)
         {
             Name = name;
             Price = price;
+            Currency = Currencies.SEK;
             if (shouldSave)
             {
-                SaveProduct();
+                SaveProduct(this);
             }
         }
 
         public Product()
         {
 
+        }
+
+        public override string ToString()
+        {
+            return $"{Name} kostar {Price} {Currency}";
+        }
+        public void SaveProduct(Product product)
+        {
+            var sw = new StreamWriter(path: $"{Directory.GetCurrentDirectory()}\\product.txt", append: true, Encoding.Default);
+            sw.Write($"\nName:{product.Name},Price:{product.Price}");
+            sw.Close();
         }
         public List<Product> ReadProducts()
         {
@@ -48,88 +59,72 @@ namespace Labb2
             sr.Close();
             return tempList;
         }
-        public void SaveProduct()
-        {
-            var sw = new StreamWriter(path: $"{Directory.GetCurrentDirectory()}\\product.txt", append: true, Encoding.Default);
-            sw.Write($"\nName:{Name},Price:{Price}");
-            sw.Close();
-        }
+
 
         public List<Product> PriceCurrency(List<Product> list, Currencies currency)
         {
             foreach (var x in list)
             {
-                x.Price = CurrencyConversion(x.Price, x._productCurrencies, currency);
-                x._productCurrencies = currency;
+                //Priser är rätt den 22 september 2022 10:00 UTC
+                if (x.Currency == Currencies.SEK)
+                {
+                    if (currency is Currencies.DKK)
+                    {
+                        x.Price *= 0.68;
+                    }
+                    else if (currency is Currencies.EUR)
+                    {
+                        x.Price *= 0.092;
+                    }
+                    else if (currency is Currencies.USD)
+                    {
+                        x.Price *= 0.091;
+                    }
+                }
+                else if (x.Currency == Currencies.DKK)
+                {
+                    if (currency is Currencies.SEK)
+                    {
+                        x.Price *= 1.46;
+                    }
+                    else if (currency is Currencies.EUR or Currencies.USD)
+                    {
+                        x.Price *= 0.13;
+                    }
+                }
+                else if (x.Currency == Currencies.EUR)
+                {
+                    if (currency is Currencies.SEK)
+                    {
+                        x.Price *= 10.86;
+                    }
+                    else if (currency is Currencies.DKK)
+                    {
+                        x.Price *= 7.44;
+                    }
+                    else if (currency is Currencies.USD)
+                    {
+                        x.Price *= 0.99;
+                    }
+                }
+                else if (x.Currency == Currencies.USD)
+                {
+                    if (currency is Currencies.SEK)
+                    {
+                        x.Price *= 11.02;
+                    }
+                    else if (currency is Currencies.DKK)
+                    {
+                        x.Price *= 7.54;
+                    }
+                    else if (currency is Currencies.EUR)
+                    {
+                        x.Price *= 1.01;
+                    }
+                }
+                x.Currency = currency;
             }
             return list;
-        }
-
-        public double CurrencyConversion(double price, Currencies currencyProduct, Currencies currencyConvert)
-        {
-            //Priser är rätt den 22 september 2022 10:00 UTC
-            if (currencyProduct == Currencies.SEK)
-            {
-                if (currencyConvert is Currencies.DKK)
-                {
-                    price *= 0.68;
-                }
-                else if (currencyConvert is Currencies.EUR)
-                {
-                    price *= 0.092;
-                }
-                else if (currencyConvert is Currencies.USD)
-                {
-                    price *= 0.091;
-                }
-            }
-            else if (currencyProduct == Currencies.DKK)
-            {
-                if (currencyConvert is Currencies.SEK)
-                {
-                    price *= 1.46;
-                }
-                else if (currencyConvert is Currencies.EUR or Currencies.USD)
-                {
-                    price *= 0.13;
-                }
-            }
-            else if (currencyProduct == Currencies.EUR)
-            {
-                if (currencyConvert is Currencies.SEK)
-                {
-                    price *= 10.86;
-                }
-                else if (currencyConvert is Currencies.DKK)
-                {
-                    price *= 7.44;
-                }
-                else if (currencyConvert is Currencies.USD)
-                {
-                    price *= 0.99;
-                }
-            }
-            else if (currencyProduct == Currencies.USD)
-            {
-                if (currencyConvert is Currencies.SEK)
-                {
-                    price *= 11.02;
-                }
-                else if (currencyConvert is Currencies.DKK)
-                {
-                    price *= 7.54;
-                }
-                else if (currencyConvert is Currencies.EUR)
-                {
-                    price *= 1.01;
-                }
-            }
-            return price;
-        }
-
-        public override string ToString()
-        {
-            return $"{Name} kostar {Price} {_productCurrencies}";
         }
     }
 }

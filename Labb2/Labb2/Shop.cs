@@ -11,5 +11,6 @@
             EUR = 2,
             DKK = 3
         }
+        public Currencies Currency { get; set; }
     }
 }

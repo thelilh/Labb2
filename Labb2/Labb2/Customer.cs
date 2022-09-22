@@ -11,11 +11,10 @@ namespace Labb2
             Silver = 1,
             Gold = 2
         }
-        public string Name { get; private set; } = null!;
+        public string Name { get; internal set; } = null!;
         public string Password { get; set; } = null!;
         public List<Product> Cart { get; } = null!;
-        public CustomerLevel Level { get; private set; }
-        public Currencies Currency { get; set; }
+        public CustomerLevel Level { get; internal set; }
 
         public Customer(string name, string password, bool shouldSave)
         {
@@ -26,7 +25,7 @@ namespace Labb2
             Currency = Currencies.SEK;
             if (shouldSave)
             {
-                SaveCutomer();
+                SaveCutomer(this);
             }
         }
 
@@ -34,6 +33,21 @@ namespace Labb2
         {
         }
 
+        public override string ToString()
+        {
+            return $"Du är inloggad som {Name}\nMedlemsnivå: {Level} Medlem\nValuta: {Currency}";
+        }
+
+        public void BuyProducts()
+        {
+            double total = 0;
+            foreach (var x in Cart)
+            {
+                Console.WriteLine($"{x.ToString()} {Currency}");
+                total += x.Price;
+            }
+            Console.WriteLine($"Du behöver betala {total}");
+        }
         public List<Customer> ReadCustomers()
         {
             var tempList = new List<Customer>();
@@ -68,26 +82,11 @@ namespace Labb2
             sr.Close();
             return tempList;
         }
-        public void SaveCutomer()
+        public void SaveCutomer(Customer customer)
         {
             var sw = new StreamWriter(path: $"{Directory.GetCurrentDirectory()}\\customer.txt", append: true, Encoding.Default);
-            sw.Write($"\nName:{Name},Password:{Password},Level:{(int)Level},Currency:{(int)Currency}");
+            sw.Write($"\nName:{customer.Name},Password:{customer.Password},Level:{(int)customer.Level},Currency:{(int)Currency}");
             sw.Close();
-        }
-        public override string ToString()
-        {
-            return $"Du är inloggad som {Name}\nMedlemsnivå: {Level} Medlem\nValuta: {Currency}";
-        }
-
-        public void BuyProducts()
-        {
-            double total = 0;
-            foreach (var x in Cart)
-            {
-                Console.WriteLine($"{x.ToString()} {Currency}");
-                total += x.Price;
-            }
-            Console.WriteLine($"Du behöver betala {total}");
         }
     }
 }

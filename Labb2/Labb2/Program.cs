@@ -67,20 +67,23 @@ while (!loggedIn)
                 var tempCustomer = new Customer(userName, userPass, true);
                 customers.Add(tempCustomer);
                 loggedCustomer = tempCustomer;
+                loggedIn = true;
             }
         }
     }
 }
-
-while (loggedIn)
+if (loggedCustomer != null)
 {
-    //Meny system där vi visar följande
-    //1. Handla något => visa menyn och lägga till i korgen
-    //2. Ändra inställningar => Ändra lösenord och valuta
-    //3. Avsluta => loggedIn = false
-    Console.Clear();
-    Console.WriteLine($"VÄLKOMMEN TILL C#-KÖP!\n{loggedCustomer.ToString()}");
-    Console.WriteLine("Vad vill du göra?");
-    break;
+    while (loggedIn)
+    {
+        //Meny system där vi visar följande
+        //1. Handla något => visa menyn och lägga till i korgen
+        //2. Ändra inställningar => Ändra lösenord och valuta
+        //3. Avsluta => loggedIn = false
+        Console.Clear();
+        Console.WriteLine($"VÄLKOMMEN TILL C#-KÖP!\n{loggedCustomer.ToString()}");
+        Console.WriteLine("Vad vill du göra?");
+        break;
 
+    }
 }
