@@ -1,0 +1,4 @@
+Name:Knatte,Password:123,Level:2,Currency:0
+Name:Fnatte,Password:321,Level:1,Currency:1
+Name:Tjatte,Password:213,Level:0,Currency:2
+Name:Dansken,Password:Copenhagen,Level:1,Currency:3

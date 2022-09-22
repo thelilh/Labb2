@@ -36,27 +36,37 @@ namespace Labb2
         public List<Product> ReadProducts()
         {
             var tempList = new List<Product>();
-            var sr = new StreamReader(path: $"{Directory.GetCurrentDirectory()}\\product.txt");
-            var line = sr.ReadLine();
-            while (line != null)
+            if (!File.Exists($"{Directory.GetCurrentDirectory()}\\product.txt"))
             {
-                var tempSplit = line.Split(separator: ",");
-                var tempProduct = new Product();
-                foreach (var x in tempSplit)
-                {
-                    if (x.Contains("Name"))
-                    {
-                        tempProduct.Name = x.Replace("Name:", string.Empty);
-                    }
-                    else if (x.Contains("Price"))
-                    {
-                        tempProduct.Price = int.Parse(x.Replace("Price:", string.Empty));
-                    }
-                }
-                tempList.Add(tempProduct);
-                line = sr.ReadLine();
+                tempList.Add(new Product(name: "Kaffe", price: 50, shouldSave: true));
+                tempList.Add(new Product(name: "Dricka", price: 23, shouldSave: true));
+                tempList.Add(new Product(name: "Äpple", price: 5, shouldSave: true));
             }
-            sr.Close();
+            else
+            {
+                var sr = new StreamReader(path: $"{Directory.GetCurrentDirectory()}\\product.txt");
+                var line = sr.ReadLine();
+                while (line != null)
+                {
+                    var tempSplit = line.Split(separator: ",");
+                    var tempProduct = new Product();
+                    foreach (var x in tempSplit)
+                    {
+                        if (x.Contains("Name"))
+                        {
+                            tempProduct.Name = x.Replace("Name:", string.Empty);
+                        }
+                        else if (x.Contains("Price"))
+                        {
+                            tempProduct.Price = int.Parse(x.Replace("Price:", string.Empty));
+                        }
+                    }
+                    tempList.Add(tempProduct);
+                    line = sr.ReadLine();
+                }
+                sr.Close();
+            }
+
             return tempList;
         }
 
