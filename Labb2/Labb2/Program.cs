@@ -1,25 +1,86 @@
 ﻿
 using Labb2;
-using System.Text;
 
-var customers = new Customer(name: "Admin", password: "Admin").ReadCustomers();
-var products = new Product(name: "Admin", price: 0).ReadProducts();
-foreach (var x in customers)
-{
-    Console.WriteLine($"{x.Name} has password {x.Password}");
-}
+var customers = new Customer().ReadCustomers();
+var products = new Product().ReadProducts();
+var loggedIn = false;
+Customer loggedCustomer = null!;
 foreach (var x in products)
 {
-    Console.WriteLine($"{x.Name} costs {x.Price}");
+    Console.WriteLine(x.ToString());
+}
+products = new Product().PriceCurrency(products, Shop.Currencies.USD);
+foreach (var x in products)
+{
+    Console.WriteLine(x.ToString());
+}
+while (!loggedIn)
+{
+    Console.WriteLine("VÄLKOMMEN TILL C#-KÖP\nFör att handla, behöver du logga in!");
+    Console.WriteLine("Skriv in ditt namn:");
+    var userName = Console.ReadLine();
+    var userPass = string.Empty;
+    var isUser = false;
+    foreach (var x in customers)
+    {
+        if (string.Equals(x.Name, userName))
+        {
+            loggedCustomer = x;
+            isUser = true;
+        }
+    }
+
+    if (isUser)
+    {
+        //Logga in användaren.
+        Console.WriteLine($"Hej {userName}!");
+        var attempts = 0;
+        while (true)
+        {
+            if (attempts > 3)
+            {
+                Console.WriteLine("För många försök, försök igen senare!");
+                break;
+            }
+            Console.WriteLine("Lösenord:");
+            userPass = Console.ReadLine();
+            if (loggedCustomer != null && loggedCustomer.Password.Equals(userPass))
+            {
+                loggedIn = true;
+                break;
+            }
+            attempts++;
+            Console.WriteLine("Fel lösenord.");
+        }
+    }
+    else
+    {
+        //Skapa användaren.
+        Console.WriteLine($"Vi kunde ej hitta {userName}. Vill du skapa ett konto? (Y/N)");
+        var userInput = Console.ReadLine();
+        if (userInput != null && userInput.ToLower()[0] == 'y')
+        {
+            Console.WriteLine("Skriv in önskat lösenord:");
+            userPass = Console.ReadLine();
+            if (userName != null && userPass != null)
+            {
+                var tempCustomer = new Customer(userName, userPass, true);
+                customers.Add(tempCustomer);
+                loggedCustomer = tempCustomer;
+            }
+        }
+    }
 }
 
-
-//Funktionerna WriteToFile & ReadFromFile
-void WriteToFile(string file, string text, bool shouldAppend)
+while (loggedIn)
 {
-    string path = Directory.GetCurrentDirectory();
-    if (!file.Contains(".txt")) { file += ".txt"; }
-    var sw = new StreamWriter(path: $"{path}\\{file}", append: shouldAppend, Encoding.ASCII);
-    sw.Write(text);
-    sw.Close();
+    //Meny system där vi visar följande
+    //1. Handla något => visa menyn och lägga till i korgen
+    //2. Ändra inställningar => Ändra lösenord och valuta
+    //3. Avsluta => loggedIn = false
+    Console.Clear();
+    Console.WriteLine($"VÄLKOMMEN TILL C#-KÖP!\n{loggedCustomer.ToString()}");
+    Console.WriteLine("Vad vill du göra?");
+    break;
+
 }
