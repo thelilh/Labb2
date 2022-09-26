@@ -39,7 +39,7 @@ while (!isLoggedIn)
             var userPass = Console.ReadLine();
             if (userName != null && userPass != null)
             {
-                var tempCustomer = new Customer(userName, userPass);
+                var tempCustomer = new Customer(name: userName, password: userPass, level: Customer.CustomerLevel.Bronze, currency: Shop.Currencies.SEK);
                 customers.Add(tempCustomer);
                 loggedCustomer = tempCustomer;
                 Customer.SaveCustomers(customers);

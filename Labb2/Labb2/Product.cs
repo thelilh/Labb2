@@ -16,8 +16,7 @@ public class Product : Shop
 
     public override string ToString()
     {
-        var temp = (int)Currency;
-        return $"{Name} för {Math.Round(Price[temp], 2)} {Currency}";
+        return $"{Name} för {Math.Round(Price[(int)Currency], 2)} {Currency}";
     }
     public static void SaveProducts(List<Product> list)
     {
@@ -41,7 +40,7 @@ public class Product : Shop
         {
             var sr = new StreamReader(path: $"{Directory.GetCurrentDirectory()}\\product.txt");
             var line = sr.ReadLine();
-            while (line != null)
+            while (!string.IsNullOrEmpty(line))
             {
                 var tempSplit = line.Split(separator: ",");
                 var tempName = string.Empty;

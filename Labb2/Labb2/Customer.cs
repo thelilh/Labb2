@@ -16,12 +16,12 @@ public class Customer : Shop
     public Dictionary<Product, int> Cart { get; set; } = new();
     public CustomerLevel Level { get; internal set; }
 
-    public Customer(string name, string password)
+    public Customer(string name, string password, CustomerLevel level, Currencies currency)
     {
         Name = name;
         Password = password;
-        Level = CustomerLevel.Bronze;
-        Currency = Currencies.SEK;
+        Level = level;
+        Currency = currency;
     }
 
     public override string ToString()
@@ -49,20 +49,14 @@ public class Customer : Shop
 
     public void BuyProducts()
     {
-        double total = 0;
-        double rabatt = 0; //0-1 (0%-100%)
-        switch (Level)
+        var total = 0.0;
+        var rabatt = Level switch
         {
-            case CustomerLevel.Bronze:
-                rabatt = 0.95;
-                break;
-            case CustomerLevel.Silver:
-                rabatt = 0.90;
-                break;
-            case CustomerLevel.Gold:
-                rabatt = 0.85;
-                break;
-        }
+            CustomerLevel.Bronze => 0.95,
+            CustomerLevel.Silver => 0.90,
+            CustomerLevel.Gold => 0.85,
+            _ => 0
+        };
         Console.WriteLine($"Kvitto för {Name}");
         foreach (var x in Cart)
         {
@@ -84,15 +78,15 @@ public class Customer : Shop
         var tempList = new List<Customer>();
         if (!File.Exists(path: $"{Directory.GetCurrentDirectory()}\\customer.txt"))
         {
-            tempList.Add(new Customer(name: "Knatte", password: "123"));
-            tempList.Add(new Customer(name: "Fnatte", password: "321"));
-            tempList.Add(new Customer(name: "Tjatte", password: "213"));
+            tempList.Add(new Customer(name: "Knatte", password: "123", currency: Currencies.SEK, level: CustomerLevel.Gold));
+            tempList.Add(new Customer(name: "Fnatte", password: "321", currency: Currencies.DKK, level: CustomerLevel.Silver));
+            tempList.Add(new Customer(name: "Tjatte", password: "213", currency: Currencies.EUR, level: CustomerLevel.Bronze));
         }
         else
         {
             var sr = new StreamReader(path: $"{Directory.GetCurrentDirectory()}\\customer.txt");
             var line = sr.ReadLine();
-            while (line != null)
+            while (!string.IsNullOrEmpty(line))
             {
                 var tempSplit = line.Split(separator: ",");
                 var tempName = string.Empty;
@@ -119,12 +113,7 @@ public class Customer : Shop
                     }
                 }
 
-                var tempCustomer = new Customer(tempName, tempPassword)
-                {
-                    Level = tempLevel,
-                    Currency = tempCurrency
-                };
-                tempList.Add(tempCustomer);
+                tempList.Add(new Customer(name: tempName, password: tempPassword, level: tempLevel, currency: tempCurrency));
                 line = sr.ReadLine();
             }
             sr.Close();
