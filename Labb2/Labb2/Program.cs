@@ -49,7 +49,7 @@ while (!isLoggedIn)
         }
     }
 }
-if (isLoggedIn)
+if (isLoggedIn && loggedCustomer != null)
 {
     //Meny system där vi visar följande
     //0. Huvudmeny
