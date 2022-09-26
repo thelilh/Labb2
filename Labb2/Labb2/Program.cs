@@ -35,16 +35,23 @@ while (!isLoggedIn)
         var userInput = Console.ReadLine();
         if (!string.IsNullOrEmpty(userInput) && userInput.ToLower()[0] == 'y')
         {
-            Console.WriteLine("Skriv in önskat lösenord:");
-            var userPass = Console.ReadLine();
-            if (userName != null && userPass != null)
+            while (true)
             {
-                var tempCustomer = new Customer(name: userName, password: userPass, level: Customer.CustomerLevel.Bronze, currency: Shop.Currencies.SEK);
-                customers.Add(tempCustomer);
-                loggedCustomer = tempCustomer;
-                Customer.SaveCustomers(customers);
-                isLoggedIn = false;
-                break;
+                Console.WriteLine("Skriv in önskat lösenord:");
+                var userPass = Console.ReadLine();
+                if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(userPass))
+                {
+                    if (!userPass.Contains(','))
+                    {
+                        var tempCustomer = new Customer(name: userName, password: userPass, level: Customer.CustomerLevel.Bronze, currency: Shop.Currencies.SEK);
+                        customers.Add(tempCustomer);
+                        loggedCustomer = tempCustomer;
+                        Customer.SaveCustomers(customers);
+                        isLoggedIn = true;
+                        break;
+                    }
+                    Console.WriteLine("Lösenord kan inte innehålla ','");
+                }
             }
         }
     }
@@ -196,7 +203,7 @@ if (isLoggedIn && loggedCustomer != null)
                 {
                     Console.WriteLine("Vad vill du ändra ditt lösenord till?");
                     var temp = Console.ReadLine();
-                    if (temp != null && temp != loggedCustomer.Password)
+                    if (!string.IsNullOrEmpty(temp) && !temp.Contains(',') && temp != loggedCustomer.Password)
                     {
                         Console.WriteLine($"Lösenord för {loggedCustomer.Name} ändrades till \"{temp}\" från \"{loggedCustomer.Password}\".");
                         loggedCustomer.Password = temp;
@@ -205,6 +212,10 @@ if (isLoggedIn && loggedCustomer != null)
                     else if (temp == loggedCustomer.Password)
                     {
                         Console.WriteLine($"Lösenordet för {loggedCustomer.Name} är redan \"{temp}\".");
+                    }
+                    else if (temp.Contains(','))
+                    {
+                        Console.WriteLine("Lösenordet kan inte innehålla ','.");
                     }
                     Console.WriteLine("Tryck ENTER för att fortsätta...");
                     Console.ReadKey();
