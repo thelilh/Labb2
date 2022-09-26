@@ -3,16 +3,16 @@ using Labb2;
 
 var customers = Customer.ReadCustomers();
 var products = Product.ReadProducts();
-bool shouldLogIn;
+var isLoggedIn = false;
 Customer loggedCustomer = null!;
-while (true)
+while (!isLoggedIn)
 {
     Console.WriteLine("VÄLKOMMEN TILL C#-KÖP\nFör att handla, behöver du logga in!");
     Console.WriteLine("Skriv in ditt namn:");
     var userName = Console.ReadLine();
     foreach (var x in customers)
     {
-        if (string.Equals(x.Name, userName))
+        if (userName == x.Name)
         {
             loggedCustomer = x;
         }
@@ -22,10 +22,10 @@ while (true)
     {
         //Logga in användaren.
         Console.WriteLine($"Hej {userName}!");
-        shouldLogIn = !loggedCustomer.CheckPassword();
-        if (!shouldLogIn)
+        isLoggedIn = loggedCustomer.CheckPassword();
+        if (!isLoggedIn)
         {
-            break;
+            loggedCustomer = null!;
         }
     }
     else
@@ -33,7 +33,7 @@ while (true)
         //Skapa användaren.
         Console.WriteLine($"Vi kunde ej hitta {userName}. Vill du skapa ett konto? (Y/N)");
         var userInput = Console.ReadLine();
-        if (userInput != null && userInput.ToLower()[0] == 'y')
+        if (!string.IsNullOrEmpty(userInput) && userInput.ToLower()[0] == 'y')
         {
             Console.WriteLine("Skriv in önskat lösenord:");
             var userPass = Console.ReadLine();
@@ -43,19 +43,19 @@ while (true)
                 customers.Add(tempCustomer);
                 loggedCustomer = tempCustomer;
                 Customer.SaveCustomers(customers);
-                shouldLogIn = false;
+                isLoggedIn = false;
                 break;
             }
         }
     }
 }
-if (!shouldLogIn)
+if (isLoggedIn)
 {
     //Meny system där vi visar följande
     //0. Huvudmeny
     //1. Handla något => visa menyn och lägga till i korgen
     //2. Ändra inställningar => Ändra lösenord och valuta
-    //3. Avsluta => shouldLogIn = false
+    //3. Avsluta => isLoggedIn = false
     var showMenu = true;
     var menu = 0;
     var selection = 0;

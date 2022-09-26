@@ -159,7 +159,9 @@ public class Customer : Shop
                 return true;
             }
             attempts++;
+            Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Fel lösenord.");
+            Console.ResetColor();
         }
         return false;
     }
