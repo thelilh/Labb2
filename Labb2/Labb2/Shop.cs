@@ -1,16 +1,15 @@
-﻿namespace Labb2
-{
-    public class Shop
-    {
+﻿namespace Labb2;
 
-        [Flags]
-        public enum Currencies
-        {
-            SEK = 0,
-            USD = 1,
-            EUR = 2,
-            DKK = 3
-        }
-        public Currencies Currency { get; set; }
+public class Shop
+{
+
+    [Flags]
+    public enum Currencies
+    {
+        SEK = 0,
+        USD = 1,
+        EUR = 2,
+        DKK = 3
     }
+    public Currencies Currency { get; set; }
 }
