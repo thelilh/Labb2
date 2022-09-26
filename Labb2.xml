@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2022-09-22T14:33:56.924Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.33" etag="8yJV43xIKUNFmULO2scj" version="20.3.5" type="github">
+<mxfile host="app.diagrams.net" modified="2022-09-26T06:53:44.709Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.50" etag="nx9a6rX2UeelKvWPjXxs" version="20.3.6" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="867" dy="482" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -28,17 +28,17 @@
         <mxCell id="TsXjjhrxtIEk_d8RN1GK-3" value="+ Customer(name: string, password: string)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="TsXjjhrxtIEk_d8RN1GK-0" vertex="1">
           <mxGeometry y="112" width="260" height="32" as="geometry" />
         </mxCell>
-        <mxCell id="IttiuLYK-bEPMy2Q-veu-11" value="+ ReadCustomers(): List&lt;Customer&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="TsXjjhrxtIEk_d8RN1GK-0" vertex="1">
+        <mxCell id="TsXjjhrxtIEk_d8RN1GK-17" value="+ BuyProducts(): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="TsXjjhrxtIEk_d8RN1GK-0" vertex="1">
           <mxGeometry y="144" width="260" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="TsXjjhrxtIEk_d8RN1GK-17" value="+ BuyProducts(): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="TsXjjhrxtIEk_d8RN1GK-0" vertex="1">
-          <mxGeometry y="170" width="260" height="26" as="geometry" />
-        </mxCell>
         <mxCell id="IttiuLYK-bEPMy2Q-veu-13" value="+ CheckPassword(): bool" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="TsXjjhrxtIEk_d8RN1GK-0" vertex="1">
-          <mxGeometry y="196" width="260" height="24" as="geometry" />
+          <mxGeometry y="170" width="260" height="24" as="geometry" />
         </mxCell>
-        <mxCell id="ybhKvkj2Fq2R23WOr7cA-1" value="+ AddToCart(product: Product): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="TsXjjhrxtIEk_d8RN1GK-0">
-          <mxGeometry y="220" width="260" height="24" as="geometry" />
+        <mxCell id="ybhKvkj2Fq2R23WOr7cA-1" value="+ AddToCart(product: Product): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="TsXjjhrxtIEk_d8RN1GK-0" vertex="1">
+          <mxGeometry y="194" width="260" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="IttiuLYK-bEPMy2Q-veu-11" value="+ ReadCustomers(): List&lt;Customer&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="TsXjjhrxtIEk_d8RN1GK-0" vertex="1">
+          <mxGeometry y="218" width="260" height="26" as="geometry" />
         </mxCell>
         <mxCell id="IttiuLYK-bEPMy2Q-veu-9" value="+ SaveCustomer(list: List&lt;Customer&gt;): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="TsXjjhrxtIEk_d8RN1GK-0" vertex="1">
           <mxGeometry y="244" width="260" height="26" as="geometry" />
@@ -63,7 +63,7 @@
         <mxCell id="TsXjjhrxtIEk_d8RN1GK-15" value="+ Product(name: string, price: double)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="TsXjjhrxtIEk_d8RN1GK-9" vertex="1">
           <mxGeometry y="86" width="410" height="24" as="geometry" />
         </mxCell>
-        <mxCell id="IttiuLYK-bEPMy2Q-veu-12" value="+ ReadProducts(): List&lt;Product&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="TsXjjhrxtIEk_d8RN1GK-9" vertex="1">
+        <mxCell id="IttiuLYK-bEPMy2Q-veu-12" value="+ ReadProducts(): List&lt;Product&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="TsXjjhrxtIEk_d8RN1GK-9" vertex="1">
           <mxGeometry y="110" width="410" height="26" as="geometry" />
         </mxCell>
         <mxCell id="IttiuLYK-bEPMy2Q-veu-4" value="+ PriceCurrency(list: List&lt;Product&gt;, currency: Currencies): List&lt;Product&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="TsXjjhrxtIEk_d8RN1GK-9" vertex="1">
