@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-09-26T06:53:44.709Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.50" etag="nx9a6rX2UeelKvWPjXxs" version="20.3.6" type="github">
+<mxfile host="app.diagrams.net" modified="2022-09-26T08:39:33.748Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.50" etag="-NY8sq4Q65rBjszwAqfA" version="20.3.6" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
     <mxGraphModel dx="867" dy="482" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -54,7 +54,7 @@
         <mxCell id="TsXjjhrxtIEk_d8RN1GK-10" value="+ Name: string" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="TsXjjhrxtIEk_d8RN1GK-9" vertex="1">
           <mxGeometry y="26" width="410" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="TsXjjhrxtIEk_d8RN1GK-11" value="+ Price: double" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="TsXjjhrxtIEk_d8RN1GK-9" vertex="1">
+        <mxCell id="TsXjjhrxtIEk_d8RN1GK-11" value="+ Price: double[]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="TsXjjhrxtIEk_d8RN1GK-9" vertex="1">
           <mxGeometry y="52" width="410" height="26" as="geometry" />
         </mxCell>
         <mxCell id="TsXjjhrxtIEk_d8RN1GK-14" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="TsXjjhrxtIEk_d8RN1GK-9" vertex="1">
@@ -66,7 +66,7 @@
         <mxCell id="IttiuLYK-bEPMy2Q-veu-12" value="+ ReadProducts(): List&lt;Product&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="TsXjjhrxtIEk_d8RN1GK-9" vertex="1">
           <mxGeometry y="110" width="410" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="IttiuLYK-bEPMy2Q-veu-4" value="+ PriceCurrency(list: List&lt;Product&gt;, currency: Currencies): List&lt;Product&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="TsXjjhrxtIEk_d8RN1GK-9" vertex="1">
+        <mxCell id="IttiuLYK-bEPMy2Q-veu-4" value="- ChangePrices(price: double[]): double[]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="TsXjjhrxtIEk_d8RN1GK-9" vertex="1">
           <mxGeometry y="136" width="410" height="26" as="geometry" />
         </mxCell>
         <mxCell id="IttiuLYK-bEPMy2Q-veu-10" value="+ SaveProduct(list: (List&lt;Product&gt;): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=4" parent="TsXjjhrxtIEk_d8RN1GK-9" vertex="1">
