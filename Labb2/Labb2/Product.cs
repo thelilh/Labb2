@@ -24,7 +24,7 @@ public class Product : Shop
         var sw = new StreamWriter(path: $"{Directory.GetCurrentDirectory()}\\product.txt", append: false, Encoding.Default);
         foreach (var product in list)
         {
-            sw.Write($"Name:{product.Name},Price:{product.Price}\n");
+            sw.Write($"Name:{product.Name},Price:{product.Price[0]}\n");
         }
         sw.Close();
     }

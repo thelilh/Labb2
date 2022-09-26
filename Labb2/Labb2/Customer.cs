@@ -26,7 +26,7 @@ public class Customer : Shop
 
     public override string ToString()
     {
-        return $"Du är inloggad som {Name}\nLösenord: {Password}\nMedlemsnivå: {Level} Medlem\nValuta: {Currency}\n{DisplayCart()}";
+        return $"Du är inloggad som {Name}\nLösenord: {Password}\nMedlemsnivå: {Level} Medlem\nValuta: {Currency}\n";
     }
 
     public string DisplayCart()
